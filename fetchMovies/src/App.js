@@ -1,13 +1,17 @@
 import React,{useState} from 'react';
 
 import MoviesList from './components/MoviesList';
+import { Circles } from 'react-loader-spinner'
+;
 import './App.css';
 
 function App() {
   const [dummyMovies,setDummyMovies] = useState([])
+  const [iSLoading,setIsLoading] =useState(false)
 
  const handleFetchMovies = async()=>
     {
+        setIsLoading(true)
         const response = await fetch("https://www.swapi.tech/api/films/")
         const data= await response.json()
         const dummy = data.result.map((movie)=>{
@@ -19,6 +23,7 @@ function App() {
           }
       })
       setDummyMovies(dummy) 
+      setIsLoading(false)
     }
 
   return (
@@ -27,7 +32,10 @@ function App() {
         <button onClick={handleFetchMovies}>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={dummyMovies} />
+       {!iSLoading && <MoviesList movies={dummyMovies} />} 
+        {
+        iSLoading && <Circles height="80" width="80" color="#4fa94d" ariaLabel="circles-loading" wrapperStyle={{}} wrapperClass="" visible={true}/>
+        }
       </section>
     </React.Fragment>
   );
