@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import MoviesList from './components/MoviesList';
 import { Circles } from 'react-loader-spinner';
 import './App.css';
@@ -8,7 +8,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(null);
 
-  const handleFetchMovies = async () => {
+  const handleFetchMovies = useCallback(async () => {
     setIsError(null);
     setIsLoading(true);
     try {
@@ -29,7 +29,9 @@ function App() {
       setIsError(error.message);
     } 
     setIsLoading(false);  
-  };
+  },[]);
+
+  useEffect(handleFetchMovies,[handleFetchMovies])
 
   return (
     <React.Fragment>
