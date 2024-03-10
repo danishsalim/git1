@@ -1,0 +1,31 @@
+form{
+    margin:10px auto;
+    padding: 20px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+
+}
+.inputData{
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+label{
+    font-weight: bolder;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+input {
+    width:100%;
+}
+textarea{
+    width: 100%;
+    height: 4rem;
+}

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import MoviesList from './components/MoviesList';
 import { Circles } from 'react-loader-spinner';
 import './App.css';
+import NewMovie from './components/NewMovie';
 
 function App() {
   const [dummyMovies, setDummyMovies] = useState([]);
@@ -31,10 +32,13 @@ function App() {
     setIsLoading(false);  
   },[]);
 
-  useEffect(handleFetchMovies,[handleFetchMovies])
+  useEffect(()=>{handleFetchMovies()},[handleFetchMovies])
 
   return (
     <React.Fragment>
+      <section>
+        <NewMovie />
+      </section>
       <section>
         <button onClick={handleFetchMovies}>Fetch Movies</button>
       </section>
