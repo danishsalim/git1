@@ -1,18 +1,16 @@
 import React,{useMemo, useState} from 'react'
 import "./NewMovie.css"
-const NewMovie = () => {
-  const [movieDetail,setMovieDetail] = useState()  
+const NewMovie = (props) => {
+  // const [movieDetail,setMovieDetail] = useState()  
   
   const handleSubmit=(e)=>{
     e.preventDefault()
     const movie ={
-        id:Math.random(),
         title:e.target.title.value,
         releaseDate:e.target.date.value,
         openingText:e.target.openingText.value,
     }
-     setMovieDetail(movie)
-     console.log(movie)
+     props.onAddMovie(movie)
   }
 
   return (
