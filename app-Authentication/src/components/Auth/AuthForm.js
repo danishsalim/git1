@@ -1,10 +1,12 @@
-import { useState, useRef } from 'react';
+import { useState, useRef,useContext } from 'react';
 
 import classes from './AuthForm.module.css';
+import AuthContext from '../../store/AuthContext';
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const  [isLoading,setIsLoading] = useState(false)
+  const {login}=useContext(AuthContext)
   const emailInputRef= useRef();
   const passwordInputRef=useRef();
 
@@ -16,41 +18,45 @@ const AuthForm = () => {
     event.preventDefault()
     const enteredEmail=emailInputRef.current.value;
     const enteredPassword=passwordInputRef.current.value;
-
     setIsLoading(true)
+    let url;
     if(isLogin)
     {
-      //...
+      url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBNrpI1KIiXoB9wO_RqsMDXrnJt5qbK78o'
+      
     }
     else {
-          const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBNrpI1KIiXoB9wO_RqsMDXrnJt5qbK78o',{
-          method:'POST',
-          body:JSON.stringify({
-            email:enteredEmail,
-            password:enteredPassword,
-            returnSecureToken:true
-          }),
-          headers:{
-            'Content-Type':'application/json'
-          }
-        })
-        setIsLoading(false)
-        if(response.ok)
-        {
-          const data = await response.json()
-          console.log(data)
-        }
-        else{
-          const data = await response.json()
-          let errorMessage='Authentication failed'
-          if(data && data.error && data.error.message)
-          {
-            errorMessage=data.error.message
-          }
-          alert(errorMessage)
-        }
-      }
+      url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBNrpI1KIiXoB9wO_RqsMDXrnJt5qbK78o'
     }
+    const response = await fetch(url,{
+            method:'POST',
+            body:JSON.stringify({
+              email:enteredEmail,
+              password:enteredPassword,
+              returnSecureToken:true
+            }),
+            headers:{
+              'Content-Type':'application/json'
+            }
+          })
+    setIsLoading(false)
+    if(response.ok)
+    {
+      const data = await response.json()
+      login(data.idToken)
+      console.log(data)
+    }
+    else{
+      const data = await response.json()
+      let errorMessage='Authentication failed'
+      if(data && data.error && data.error.message)
+      {
+        errorMessage=data.error.message
+      }
+      alert(errorMessage)
+    }
+      
+  }
     
 
   return (
